@@ -1,0 +1,31 @@
+{
+  "name": "flairfinerbackend",
+  "version": "1.0.0",
+  "description": "flairfiner backend",
+  "main": "index.js",
+  "type": "module",
+
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NibakureJosee/FlairFinerBackend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NibakureJosee/FlairFinerBackend/issues"
+  },
+  "homepage": "https://github.com/NibakureJosee/FlairFinerBackend#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongodb": "^5.0.1",
+    "mongoose": "^6.9.2",
+    "nodemon": "^2.0.20"
+  }
+}

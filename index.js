@@ -1,16 +1,19 @@
 import pkg from "express";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 import userRoutes from "./routes/Users.js";
 import videoRoutes from "./routes/Video.js";
 import commentRoutes from "./routes/Comments.js";
 import cookieParser from "cookie-parser";
 
 const app = pkg();
+dotenv.config();
+
 
 const connect = () => {
 mongoose.set('strictQuery', false);
-    mongoose.connect("mongodb://localhost:27017/myapp", ()=> {
-        console.log("CONNECTED TO MONGO DB");
+    mongoose.connect(process.env.MONGO, ()=> {
+        console.log("mongodb connected");
     })
 }
 

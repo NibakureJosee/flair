@@ -115,6 +115,9 @@ export const getByTag = async (req, res, next) => {
 
 export const search = async (req, res, next) => {
   const query = req.query.q;
+  if (!query) {
+    return res.status(400).json({ error: "Search query is required." });
+  }
   try {
     const videos = await Video.find({
       title: { $regex: query, $options: "i" },
@@ -124,6 +127,7 @@ export const search = async (req, res, next) => {
     next(err);
   }
 };
+
 
 //Trending video
 //following user

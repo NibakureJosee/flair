@@ -1,8 +1,8 @@
-import User from "../models/User.js";
-import Video from "../models/Video.js";
-import { createError } from "../error.js";
+const User = require ("../models/User.js");
+const Video = require ("../models/Video.js");
+const { createError } = require ("../error.js");
 
-export const addVideo = async (req, res, next) => {
+module.exports.addVideo = async (req, res, next) => {
   const newVideo = new Video({ userId: req.user.id, ...req.body });
   try {
     const savedVideo = await newVideo.save();
@@ -12,7 +12,7 @@ export const addVideo = async (req, res, next) => {
   }
 };
 
-export const updateVideo = async (req, res, next) => {
+module.exports.updateVideo = async (req, res, next) => {
   try {
     const video = await Video.findById(req.params.id);
     if (!video) return next(createError(404, "Video not found!"));
@@ -33,7 +33,28 @@ export const updateVideo = async (req, res, next) => {
   }
 };
 
-export const deleteVideo = async (req, res, next) => {
+module.exports.saveVideo = async (req, res, next) => {
+  try {
+    const videoId = req.params.videoId;
+    const userId = req.user.id;
+    const video = await Video.findById(videoId);
+    const user = await User.findById(userId); 
+    if (!video) {
+      throw new Error('Video not found');
+    }
+    if (!user) {
+      throw new Error('User not found');
+    }
+    user.savedVideos.push(video);
+    await user.save(); 
+    res.send(user);
+  } catch (error) {
+    next(error);
+  }
+}
+
+
+module.exports.deleteVideo = async (req, res, next) => {
   try {
     const video = await Video.findById(req.params.id);
     if (!video) return next(createError(404, "Video not found!"));
@@ -48,7 +69,7 @@ export const deleteVideo = async (req, res, next) => {
   }
 };
 
-export const getVideo = async (req, res, next) => {
+module.exports.getVideo = async (req, res, next) => {
   try {
     const video = await Video.findById(req.params.id);
     res.status(200).json(video);
@@ -57,7 +78,7 @@ export const getVideo = async (req, res, next) => {
   }
 };
 
-export const addView = async (req, res, next) => {
+module.exports.addView = async (req, res, next) => {
   try {
     await Video.findByIdAndUpdate(req.params.id, {
       $inc: { views: 1 },
@@ -68,7 +89,7 @@ export const addView = async (req, res, next) => {
   }
 };
 
-export const random = async (req, res, next) => {
+module.exports.random = async (req, res, next) => {
   try {
     const videos = await Video.aggregate([{ $sample: { size: 40 } }]);
     res.status(200).json(videos);
@@ -77,7 +98,7 @@ export const random = async (req, res, next) => {
   }
 };
 
-export const trend = async (req, res, next) => {
+module.exports.trend = async (req, res, next) => {
   try {
     const videos = await Video.find().sort({ views: -1 });
     res.status(200).json(videos);
@@ -86,7 +107,7 @@ export const trend = async (req, res, next) => {
   }
 };
 
-export const foll = async (req, res, next) => {
+module.exports.foll = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id);
     const followingUsers = user.followings;
@@ -103,7 +124,7 @@ export const foll = async (req, res, next) => {
   }
 };
 
-export const getByTag = async (req, res, next) => {
+module.exports.getByTag = async (req, res, next) => {
   const tags = req.query.tags.split(",");
   try {
     const videos = await Video.find({ tags: { $in: tags } }).limit(20);
@@ -113,7 +134,7 @@ export const getByTag = async (req, res, next) => {
   }
 };
 
-export const search = async (req, res, next) => {
+module.exports.search = async (req, res, next) => {
   const query = req.query.q;
   if (!query) {
     return res.status(400).json({ error: "Search query is required." });
@@ -127,8 +148,3 @@ export const search = async (req, res, next) => {
     next(err);
   }
 };
-
-
-//Trending video
-//following user
-//

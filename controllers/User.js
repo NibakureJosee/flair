@@ -1,8 +1,8 @@
-import { createError } from "../error.js";
-import User from "../models/User.js";
-import Video from "../models/Video.js";
+const { createError } = require ("../error.js");
+const User = require ("../models/User.js");
+const Video = require ("../models/Video.js");
 
-export const update = async (req, res, next) => {
+module.exports.update = async (req, res, next) => {
   if (req.params.id === req.user.id) {
     try {
       const updatedUser = await User.findByIdAndUpdate(
@@ -21,7 +21,7 @@ export const update = async (req, res, next) => {
   }
 };
 
-export const deleteUser = async (req, res, next) => {
+module.exports.deleteUser = async (req, res, next) => {
   if (req.params.id === req.user.id) {
     try {
       await User.findByIdAndDelete(req.params.id);
@@ -34,7 +34,7 @@ export const deleteUser = async (req, res, next) => {
   }
 };
 
-export const getUser = async (req, res, next) => {
+module.exports.getUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
     res.status(200).json(user);
@@ -43,7 +43,7 @@ export const getUser = async (req, res, next) => {
   }
 };
 
-export const follow = async (req, res, next) => {
+module.exports.follow = async (req, res, next) => {
   try {
     await User.findByIdAndUpdate(req.user.id, {
       $push: { followings: req.params.id },
@@ -57,7 +57,7 @@ export const follow = async (req, res, next) => {
   }
 };
 
-export const unfollow = async (req, res, next) => {
+module.exports.unfollow = async (req, res, next) => {
   try {
     try {
       await User.findByIdAndUpdate(req.user.id, {
@@ -75,7 +75,7 @@ export const unfollow = async (req, res, next) => {
   }
 };
 
-export const like = async (req, res, next) => {
+module.exports.like = async (req, res, next) => {
   const id = req.user.id;
   const videoId = req.params.videoId;
   try {
@@ -89,7 +89,7 @@ export const like = async (req, res, next) => {
   }
 };
 
-export const dislike = async (req, res, next) => {
+module.exports.dislike = async (req, res, next) => {
     const id = req.user.id;
     const videoId = req.params.videoId;
     try {

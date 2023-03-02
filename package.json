@@ -4,7 +4,14 @@
   "description": "this is used to showcase talents",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+  "name": "flairfinerbackend",
+  "version": "1.0.0",
+  "description": "flairfiner backend",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -14,6 +21,7 @@
     "flair"
   ],
   "author": "yvette",
+
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/NibakureJosee/FlairFinerBackend/issues"
@@ -33,4 +41,5 @@
     "nodemon": "^2.0.20",
     "uid": "^2.0.1"
   }
+}
 }

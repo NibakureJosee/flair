@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const videoSchema = new mongoose.Schema({
+const streamSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -24,6 +24,6 @@ const videoSchema = new mongoose.Schema({
   }
 });
 
-const Video = mongoose.model('Video', videoSchema);
+const Stream = mongoose.model('Stream', streamSchema);
 
 module.exports = Video;

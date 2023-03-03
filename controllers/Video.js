@@ -33,6 +33,17 @@ module.exports.updateVideo = async (req, res, next) => {
   }
 };
 
+exports.videoNumber= async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const count = await Video.countDocuments({ user: userId });
+    res.json({ count });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+};
+
 module.exports.saveVideo = async (req, res, next) => {
   try {
     const videoId = req.params.videoId;
@@ -144,6 +155,34 @@ module.exports.search = async (req, res, next) => {
       title: { $regex: query, $options: "i" },
     }).limit(40);
     res.status(200).json(videos);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.like = async (req, res, next) => {
+  const id = req.user.id;
+  const videoId = req.params.videoId;
+  try {
+    await Video.findByIdAndUpdate(videoId,{
+      $addToSet:{likes:id},
+      $pull:{dislikes:id}
+    })
+    res.status(200).json("The video has been liked.")
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.dislike = async (req, res, next) => {
+    const id = req.user.id;
+    const videoId = req.params.videoId;
+    try {
+      await Video.findByIdAndUpdate(videoId,{
+        $addToSet:{dislikes:id},
+        $pull:{likes:id}
+      })
+      res.status(200).json("The video has been disliked.")
   } catch (err) {
     next(err);
   }

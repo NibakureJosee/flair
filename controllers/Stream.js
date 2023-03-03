@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const Video = require('../models/video.model');
+const Video = require('../models/stream');
 
 // Route to get the number of videos posted by a user
-exports.getVideos= async (req, res) => {
+exports.getStreams= async (req, res) => {
   try {
     const userId = req.params.userId;
 
     // Count the number of videos posted by the user with the specified ID
-    const videoCount = await Video.countDocuments({ userId });
+    const streamCount = await stream.countDocuments({ userId });
 
-    res.json({ count: videoCount });
+    res.json({ count: streamCount });
   } catch (error) {
     console.error(error);
     res.status(500).send('Server error');

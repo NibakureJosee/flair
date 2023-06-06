@@ -6,7 +6,6 @@ const {
   follow,
   unfollow,
   getFollowers,
-  getUser,
   postUser,
   loginUser,
   updateUsername,
@@ -27,18 +26,10 @@ router.delete("/:id", verifyToken, deleteUser);
 
 //get a user
 router.get("/find/:id", getUser);
-
-//get followers and followings
-router.get("/followers", getFollowers)
-
-
-//follow a user
+router.get("/followers", getFollowers);
 router.put("/foll/:id", verifyToken, follow);
-
-//unfollow a user
 router.put("/unfoll/:id", verifyToken, unfollow);
-
-router.get('/users', getUser);
+router.get('/', getUser);
 router.post('/register',postUser);
 router.post('/login', loginUser);
 router.put('/:id/username',  updateUsername);

@@ -2,21 +2,29 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
-const User = require("./models/user.model");
-const Post=require('./models/post.model');
+const User = require("./models/User");
+const Post=require('./models/Video');
 const jwt = require("jsonwebtoken");
 const { json } = require("express");
 const bcrypt = require("bcrypt");
 const { OAuth2Client } = require('google-auth-library');
 const admin = require('firebase-admin');
-const { getBiography } = require("./controller/biography");
-const userRouter  = require("./routes/userRoutes");
-const postRouter  = require("./routes/postRoutes");
-const videoRouter =require("./routes/videoRoutes");
-const bioRouter = require("./routes/bioRoute");
-const followersRouter =require("./routes/followersRoutes");
+const userRoutes = require ("./routes/Users.js");
+const videoRoutes = require ("./routes/Video.js");
+const commentRoutes = require ("./routes/Comments.js");
+const cookieParser = require ("cookie-parser");
+const messageRoutes = require ("./routes/messages.js");
+const socket = require("socket.io");
 const dotenv=require('dotenv');
 dotenv.config();
+
+const swaggerUi = require('swagger-ui-express'), swaggerDocument = require('./swagger.json');
+
+app.use(
+  '/api-docs',
+  swaggerUi.serve, 
+  swaggerUi.setup(swaggerDocument)
+);
 
 // import firebase from 'firebase/app';
 // import 'firebase/auth';
@@ -37,38 +45,13 @@ app.get("/home", (req, res) => {
   res.send("welcome on our home page");
 });
 
-app.use('/api/user',userRouter)
-app.use('/api/post', postRouter)
-app.use('/api/video', videoRouter)
-app.use('/api/follower', followersRouter)
-app.use('/api/bio', bioRouter)
-connect();
-
-
-const PORT = 5000;
-app.listen(PORT, () => {
-  console.log(`the app is listening on ${PORT}`);
-});
-
-
-      
-
-const mongoose = require ("mongoose");
-const dotenv = require ("dotenv");
-const cors = require ("cors");
-const userRoutes = require ("./routes/Users.js");
-const videoRoutes = require ("./routes/Video.js");
-const commentRoutes = require ("./routes/Comments.js");
-const cookieParser = require ("cookie-parser");
-const messageRoutes = require ("./routes/messages.js");
-const socket = require("socket.io");
-
-dotenv.config();
+app.use('/api/user',userRoutes)
+app.use('/api/video', videoRoutes)
 
 //middlewares
 app.use(cookieParser())
 app.use(express.json());
-app.use("/api/users", userRoutes);
+app.use("/users", userRoutes);
 app.use("/api/videos", videoRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/messages", messageRoutes);

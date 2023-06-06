@@ -1,0 +1,232 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"version": "1.0.0",
+		"title": "Swagger CRUD",
+		"description": "Flair finner Swagger Doc",
+		"termsOfService": "http://swagger.io/terms/"
+	},
+	"host": "localhost:8000",
+	"basePath": "/",
+	"tags": [
+		{
+			"name": "Users",
+			"description": "User actions"
+		}
+	],
+	"schemes": ["http", "https"],
+	"consumes": ["application/json"],
+	"produces": ["application/json"],
+
+	"paths": {
+		"/users": {
+			"post": {
+				"tags": ["Users"],
+				"description": "Create user",
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "User",
+						"required": ["username", "email", "password", "img"],
+						"in": "body",
+						"properties": {
+							"username": {
+								"$ref": "#/definitions/username"
+							},
+							"email": {
+								"$ref": "#/definitions/email"
+							},
+							
+							"password": {
+								"$ref": "#/definitions/password"
+							},
+							"img": {
+								"$ref":"#/definitions/img"
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "raise Exception",
+						"schema": {
+							"$ref": "#/definitions/business_exception"
+						}
+					}
+				}
+			},
+			"put": {
+				"tags": ["Users"],
+				"description": "Update user",
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "vm",
+						"required": ["_id", "username", "email", "password", "img"],
+						"in": "body",
+						"properties": {
+							"_id": {
+								"$ref": "#/definitions/_id"
+							},
+							
+							"username": {
+								"$ref": "#/definitions/username"
+							},
+							"email": {
+								"$ref": "#/definitions/email"
+							},
+							"password": {
+								"$ref": "#/definitions/password"
+							},
+							"img":{
+								"$ref":"#/definitions/img"
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "raise Exception",
+						"schema": {
+							"$ref": "#/definitions/business_exception"
+						}
+					}
+				}
+			},
+			"get": {
+				"tags": ["Users"],
+				"description": "List users",
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "_id",
+						"in": "query",
+						"type": "string",
+						"description": "Collection ID",
+						"example": "5c0728badc70ea3dec00d8e6",
+						"defaultValue": ""
+					},
+					
+					{
+						"name": "username",
+						"in": "query",
+						"type": "string",
+						"description": "User logon",
+						"example": "LUCIANO"
+					},
+					{
+						"name": "email",
+						"in": "query",
+						"type": "string",
+						"description": "user email",
+						"example": "nibakure@gmail.com"
+					},
+					{
+						"name": "password",
+						"in": "query",
+						"type": "string",
+						"description": "User password",
+						"example": "1234"
+					},
+					{
+						"name": "image",
+						"in": "query",
+						"type": "string",
+						"description": "User profile",
+						"example": "0"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "raise Exception",
+						"schema": {
+							"$ref": "#/definitions/business_exception"
+						}
+					}
+				}
+			},
+			"delete": {
+				"tags": ["Users"],
+				"description": "Delete user",
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"name": "_id",
+						"in": "query",
+						"required": true,
+						"type": "string",
+						"description": "Collection ID",
+						"example": "5c0728badc70ea3dec00d8e6"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success"
+					},
+					"400": {
+						"description": "raise Exception",
+						"schema": {
+							"$ref": "#/definitions/business_exception"
+						}
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"_id": {
+			"type": "string",
+			"description": "Collection ID",
+			"example": "5c0728badc70ea3dec00d8e6"
+		},
+		
+		"username": {
+			"type": "string",
+			"description": "User logon",
+			"example": "LUCIANO"
+		},
+		"email": {
+			"type": "number",
+			"description": "user email",
+			"example": "nibakure@gmail.com"
+		},
+		"password": {
+			"type": "string",
+			"description": "User password",
+			"example": "1234"
+		},
+		"img": {
+			"type": "string",
+			"description": "User profile",
+			"example": 1
+		},
+		"error": {
+			"type": "object",
+			"description": "Error data",
+			"properties": {
+				"msg": {
+					"type": "string",
+					"description": "Error message",
+					"example": "User not found"
+				}
+			}
+		},
+		"business_exception": {
+			"type": "array",
+			"description": "Error array",
+			"items": {
+				"$ref": "#/definitions/error"
+			}
+		}
+	}
+	
+}

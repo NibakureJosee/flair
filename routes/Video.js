@@ -1,5 +1,5 @@
 const express = require ("express");
-const { addVideo, addView, getByTag, getVideo, random, search, foll, trend, saveVideo, videoNumber } = require ("../controllers/Video.js");
+const { addVideo, addView, getByTag, getVideo, random, search, foll, trend, saveVideo, videoNumber, like, dislike } = require ("../controllers/Video.js");
 const { verifyToken } = require ("../verifyToken.js");
 
 const router = express.Router();
